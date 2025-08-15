@@ -3,7 +3,7 @@
   max-width: 100%;
   margin: 0;
   width: 100%;
-  background: #ffffff;
+  background:white;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -16,13 +16,13 @@
   background: var(--color-primary-solid); /* main header color */
   color: #ffffff;
   width: 100%;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.12);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.12);
   position: relative;
   overflow: hidden;
   border-radius: 0; /* flush with edges */
   margin: 0;
+  
 }
-
 .header-content {
   padding: 20px 24px; /* reduced vertical to tighten top */
 }
@@ -35,11 +35,11 @@
   font-size: 28px;
   font-weight: 600;
   margin: 0 0 8px 0;
-  color: white;
+  color: black;
 }
 
 .header-subtitle {
-  color: rgba(255, 255, 255, 0.9);
+  color: black;
   font-size: 16px;
   margin: 0;
 }
@@ -51,6 +51,7 @@
   gap: 16px;
   flex-wrap: wrap;
 }
+
 
 /* Search Section Styles */
 .search-section {
@@ -139,38 +140,38 @@
 .search-field ::ng-deep .mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-notched-outline__leading,
 .search-field ::ng-deep .mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-notched-outline__notch,
 .search-field ::ng-deep .mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-notched-outline__trailing {
-  border-color: rgba(255, 255, 255, 0.4);
+  border-color: rgb(107, 104, 104);
 }
 
 .search-field ::ng-deep .mat-mdc-form-field-label {
-  color: rgba(255, 255, 255, 0.9) !important;
+  color: black!important;
   font-weight: 500;
 }
 
 .search-field ::ng-deep input {
-  color: white !important;
+  color: black !important;
   font-weight: 500;
 }
 
 .search-field ::ng-deep input::placeholder {
-  color: rgba(255, 255, 255, 0.8) !important;
+  color: black !important;
 }
 
 /* Make calendar (datepicker) icons white */
 .search-field ::ng-deep .mat-datepicker-toggle {
-  color: white !important;
+  color: black !important;
 }
 
 .search-field ::ng-deep .mat-datepicker-toggle-default-icon {
-  color: white !important;
+  color: black !important;
 }
 
 .search-field ::ng-deep .mat-icon-button {
-  color: white !important;
+  color: black !important;
 }
 
 .search-field ::ng-deep mat-datepicker-toggle button {
-  color: white !important;
+  color: black !important;
 }
 
 .search-actions {
@@ -181,7 +182,7 @@
 .search-actions button {
   min-width: 90px;
   background-color: rgba(255, 255, 255, 0.1);
-  color: white;
+  color: black;
 }
 
 .search-actions button:hover {
@@ -198,7 +199,7 @@
   border: none; /* remove borders creating gaps */
   border-radius: 0;
   box-shadow: none;
-  margin: 0;
+  margin-top: 10px;
   padding: 0 0 32px 0; /* only bottom spacing */
 }
 

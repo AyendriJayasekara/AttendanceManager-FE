@@ -42,13 +42,23 @@ export class AttendanceService {
         checkOutDate: new Date('2025-08-2'),
         checkOutTime: '17:30'
       },
+
       {
         id: '3',
         checkInDate: new Date('2025-08-3'),
         checkInTime: '09:15',
         checkOutDate: new Date('2025-08-3'),
         checkOutTime: '16:45'
+      },
+
+      {
+        id: '4',
+        checkInDate: new Date('2025-08-4'),
+        checkInTime: '09:15',
+        checkOutDate: new Date('2025-08-4'),
+        checkOutTime: '16:45'
       }
+
     ];
     this.attendanceRecords = sampleData;
     this.attendanceSubject.next([...this.attendanceRecords]);

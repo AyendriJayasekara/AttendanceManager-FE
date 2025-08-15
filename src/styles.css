@@ -21,11 +21,11 @@ body {
 /* Corporate Theme Variables */
 :root {
   /* Core Brand - Matching Reference Design */
-  --color-primary: #adaeb1; /* Deep navy blue from sidebar */
+  --color-primary:#20244e; /* Deep navy blue from sidebar */
   --color-primary-hover:#4b4b52; ;
-  --color-primary-alt:#aaaaaf; /* Mid tone */
+  --color-primary-alt:#20244e; /* Mid tone */
   --color-primary-bright: #5c6bc0; /* Bright highlight */
-  --color-primary-solid: #20244e; /* Solid color instead of gradient */
+  --color-primary-solid:white; /* Solid color instead of gradient */
 
   /* Accents */
   --color-accent: #4caf50; /* Green for action buttons */

@@ -36,11 +36,11 @@
   font-size: 28px;
   font-weight: 600;
   margin: 0 0 8px 0;
-  color: white;
+  color:black;
 }
 
 .header-subtitle {
-  color: rgba(255, 255, 255, 0.9);
+  color: black;
   font-size: 16px;
   margin: 0;
 }
@@ -55,38 +55,10 @@
 }
 
 
-/* Container and Card Styles */
-.personal-info-container {
-  padding: 20px;
-  max-width: 900px;
-  margin: 0 auto;
-}
-
-.info-card {
-  background: var(--color-surface);
-  border-radius: 12px;
-  box-shadow: 0 4px 12px -4px rgba(0, 0, 0, 0.15);
-  border: 1px solid var(--color-border);
-  overflow: hidden;
-}
-
-.info-card mat-card-header {
-  background: var(--color-primary-solid);
-  color: var(--color-text-inverse);
-  padding: 20px 20px 6px;
-}
-
-.info-card mat-card-title {
-  color: var(--color-text-inverse);
-  font-size: 22px;
-  font-weight: 600;
-  letter-spacing: 0.3px;
-  margin-bottom: 6px;
-}
 
 /* Form Styles */
 .form-container {
-  padding: 20px;
+  padding: 40px;
   background: linear-gradient(180deg, var(--color-surface) 0%, var(--color-surface-alt) 100%);
 }
 
