@@ -1,0 +1,30 @@
+<div class="layout-container">
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <div class="logo-section" role="link" tabindex="0">
+        <mat-icon class="logo-icon">access_time</mat-icon>
+        <span class="logo-text">Attendance Management</span>
+      </div>
+    </div>
+
+    <div class="sidebar-content">
+      <nav class="nav-menu">
+        <button mat-flat-button class="nav-button" (click)="navigateToPersonalInfo()">
+          <mat-icon>person</mat-icon>
+          <span>Personal Info</span>
+        </button>
+
+        <button mat-flat-button class="nav-button" (click)="navigateToHome()">
+          <mat-icon>event_note</mat-icon>
+          <span>Attendance Info</span>
+        </button>
+      </nav>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <router-outlet></router-outlet>
+  </main>
+</div>

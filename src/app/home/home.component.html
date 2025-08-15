@@ -1,0 +1,122 @@
+<div class="home-container">
+  <!-- Header Section with Search -->
+  <div class="header-section">
+    <div class="header-content">
+      <div class="header-text">
+        <h1 class="header-title">Manage And Track Your Attendance Records Here</h1>
+        <p class="header-subtitle">Easily monitor your check-ins, leaves, and attendance trends.</p>
+      </div>
+      
+      <div class="header-actions">
+        <div class="search-section">
+          <mat-form-field appearance="outline" class="search-field">
+            <input matInput 
+                   [(ngModel)]="searchCriteria.startDate" 
+                   [matDatepicker]="startPicker"
+                   [placeholder]="'Start Date'"
+                   hideLabelOnFocus>
+            <mat-datepicker-toggle matIconSuffix [for]="startPicker"></mat-datepicker-toggle>
+            <mat-datepicker #startPicker></mat-datepicker>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="search-field">
+            <input matInput 
+                   [(ngModel)]="searchCriteria.endDate" 
+                   [matDatepicker]="endPicker"
+                   [placeholder]="'End Date'"
+                   hideLabelOnFocus>
+            <mat-datepicker-toggle matIconSuffix [for]="endPicker"></mat-datepicker-toggle>
+            <mat-datepicker #endPicker></mat-datepicker>
+          </mat-form-field>
+
+          <button mat-raised-button 
+                  color="primary" 
+                  (click)="searchRecords()"
+                  class="search-button">
+            <mat-icon>search</mat-icon>
+            Search
+          </button>
+        </div>
+
+        <button mat-raised-button 
+                color="primary" 
+                (click)="openAddDialog()"
+                class="add-button">
+          <mat-icon>add</mat-icon>
+          Add New Record
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Attendance Records Table -->
+  <div class="table-section">
+    <div class="table-header">
+      <h2 class="table-title">Attendance Records</h2>
+      <p class="table-subtitle">Total Records: {{ attendanceRecords.length }}</p>
+    </div>
+    <div class="table-content">
+      <div class="table-container">
+        <table mat-table [dataSource]="attendanceRecords" class="attendance-table">
+          <!-- Check In Date Column -->
+          <ng-container matColumnDef="checkInDate">
+            <th mat-header-cell *matHeaderCellDef>Check In Date</th>
+            <td mat-cell *matCellDef="let record">{{ formatDate(record.checkInDate) }}</td>
+          </ng-container>
+
+          <!-- Check In Time Column -->
+          <ng-container matColumnDef="checkInTime">
+            <th mat-header-cell *matHeaderCellDef>Check In Time</th>
+            <td mat-cell *matCellDef="let record">{{ record.checkInTime }}</td>
+          </ng-container>
+
+          <!-- Check Out Date Column -->
+          <ng-container matColumnDef="checkOutDate">
+            <th mat-header-cell *matHeaderCellDef>Check Out Date</th>
+            <td mat-cell *matCellDef="let record">{{ formatDate(record.checkOutDate) }}</td>
+          </ng-container>
+
+          <!-- Check Out Time Column -->
+          <ng-container matColumnDef="checkOutTime">
+            <th mat-header-cell *matHeaderCellDef>Check Out Time</th>
+            <td mat-cell *matCellDef="let record">{{ record.checkOutTime }}</td>
+          </ng-container>
+
+          <!-- Actions Column -->
+          <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef>Actions</th>
+            <td mat-cell *matCellDef="let record">
+              <div class="action-buttons">
+                <button mat-icon-button 
+                        color="primary" 
+                        (click)="openUpdateDialog(record)"
+                        class="edit-button"
+                        title="Edit Record">
+                  <mat-icon>edit</mat-icon>
+                </button>
+                <button mat-icon-button 
+                        color="warn" 
+                        (click)="deleteRecord(record.id)"
+                        class="delete-button"
+                        title="Delete Record">
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </div>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+
+        <!-- No Records Message -->
+        <div *ngIf="attendanceRecords.length === 0" class="no-records">
+          <mat-icon class="no-records-icon">info</mat-icon>
+          <p>No attendance records found.</p>
+          <p>Click "Add New Record" to create your first attendance entry.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

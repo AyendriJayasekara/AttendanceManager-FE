@@ -1,0 +1,165 @@
+<div class="home-container">
+  <!-- Header Section -->
+  <div class="header-section">
+    <div class="header-content">
+      <div class="header-text">
+        <h1 class="header-title">Manage Your Profile</h1>
+        <p class="header-subtitle">View and update your employee profile information here!</p>
+      </div>
+    </div>
+  </div>
+
+
+
+
+<div class="personal-info-container">
+  <mat-card class="info-card">
+    <mat-card-header>
+      <mat-card-title>Personal Information</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <form [formGroup]="personalInfoForm" class="form-container">
+        <div class="form-row">
+          <mat-form-field appearance="outline" class="form-field">
+            <mat-label>Employee ID</mat-label>
+            <input matInput formControlName="employeeId" [readonly]="!isEditMode" placeholder="Enter employee ID">
+            <mat-error *ngIf="personalInfoForm.get('employeeId')?.hasError('required')">
+              Employee ID is required
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="form-field">
+            <mat-label>Full Name</mat-label>
+            <input matInput formControlName="fullName" [readonly]="!isEditMode" placeholder="Enter full name">
+            <mat-error *ngIf="personalInfoForm.get('fullName')?.hasError('required')">
+              Full name is required
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="form-row">
+          <mat-form-field appearance="outline" class="form-field">
+            <mat-label>Email Address</mat-label>
+            <input matInput type="email" formControlName="email" [readonly]="!isEditMode" placeholder="Enter email">
+            <mat-error *ngIf="personalInfoForm.get('email')?.hasError('required')">
+              Email is required
+            </mat-error>
+            <mat-error *ngIf="personalInfoForm.get('email')?.hasError('email')">
+              Please enter a valid email
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="form-field">
+            <mat-label>Phone Number</mat-label>
+            <input matInput formControlName="phone" [readonly]="!isEditMode" placeholder="Enter phone number">
+            <mat-error *ngIf="personalInfoForm.get('phone')?.hasError('required')">
+              Phone number is required
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="form-row">
+          <mat-form-field appearance="outline" class="form-field">
+            <mat-label>Department</mat-label>
+            <mat-select formControlName="department" [disabled]="!isEditMode">
+              <mat-option value="IT">Information Technology</mat-option>
+              <mat-option value="HR">Human Resources</mat-option>
+              <mat-option value="Finance">Finance</mat-option>
+              <mat-option value="Marketing">Marketing</mat-option>
+              <mat-option value="Operations">Operations</mat-option>
+              <mat-option value="Sales">Sales</mat-option>
+            </mat-select>
+            <mat-error *ngIf="personalInfoForm.get('department')?.hasError('required')">
+              Department is required
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="form-field">
+            <mat-label>Job Title</mat-label>
+            <input matInput formControlName="jobTitle" [readonly]="!isEditMode" placeholder="Enter job title">
+            <mat-error *ngIf="personalInfoForm.get('jobTitle')?.hasError('required')">
+              Job title is required
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="form-row">
+          <mat-form-field appearance="outline" class="form-field">
+            <mat-label>Date of Birth</mat-label>
+            <input matInput [matDatepicker]="dobPicker" formControlName="dateOfBirth" [readonly]="!isEditMode">
+            <mat-datepicker-toggle matSuffix [for]="dobPicker" [disabled]="!isEditMode"></mat-datepicker-toggle>
+            <mat-datepicker #dobPicker [disabled]="!isEditMode"></mat-datepicker>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="form-field">
+            <mat-label>Date of Joining</mat-label>
+            <input matInput [matDatepicker]="dojPicker" formControlName="dateOfJoining" [readonly]="!isEditMode">
+            <mat-datepicker-toggle matSuffix [for]="dojPicker" [disabled]="!isEditMode"></mat-datepicker-toggle>
+            <mat-datepicker #dojPicker [disabled]="!isEditMode"></mat-datepicker>
+            <mat-error *ngIf="personalInfoForm.get('dateOfJoining')?.hasError('required')">
+              Date of joining is required
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="form-row">
+          <mat-form-field appearance="outline" class="form-field">
+            <mat-label>Manager</mat-label>
+            <input matInput formControlName="manager" [readonly]="!isEditMode" placeholder="Enter manager name">
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="form-field">
+            <mat-label>Employee Type</mat-label>
+            <mat-select formControlName="employeeType" [disabled]="!isEditMode">
+              <mat-option value="Full-time">Full-time</mat-option>
+              <mat-option value="Part-time">Part-time</mat-option>
+              <mat-option value="Contract">Contract</mat-option>
+              <mat-option value="Intern">Intern</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <div class="form-row full-width">
+          <mat-form-field appearance="outline" class="form-field">
+            <mat-label>Address</mat-label>
+            <textarea matInput formControlName="address" [readonly]="!isEditMode" 
+                     placeholder="Enter complete address" rows="2"></textarea>
+          </mat-form-field>
+        </div>
+
+        <div class="button-container">
+          <!-- Always visible save button -->
+          <button mat-raised-button color="accent" 
+                  (click)="quickSave()" 
+                  class="action-button save-button">
+            <mat-icon>save</mat-icon>
+            Save
+          </button>
+
+          <button mat-raised-button color="primary" *ngIf="!isEditMode" 
+                  (click)="enableEditMode()" class="action-button">
+            <mat-icon>edit</mat-icon>
+            Edit Information
+          </button>
+          
+          <div *ngIf="isEditMode" class="edit-buttons">
+            <button mat-raised-button color="primary" 
+                    (click)="savePersonalInfo()" 
+                    [disabled]="personalInfoForm.invalid"
+                    class="action-button">
+              <mat-icon>save</mat-icon>
+              Save Changes
+            </button>
+            
+            <button mat-stroked-button 
+                    (click)="cancelEdit()" 
+                    class="action-button cancel-button">
+              <mat-icon>cancel</mat-icon>
+              Cancel
+            </button>
+          </div>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>

@@ -1,0 +1,164 @@
+/* Dialog Container */
+::ng-deep .mat-dialog-container {
+  border-radius: 12px !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  min-height: 100vh !important;
+}
+
+/* Dialog Content */
+mat-dialog-content {
+  padding: 24px;
+  min-width: 500px;
+}
+
+.form-title {
+  text-align: center;
+  color: #495057;
+  font-size: 24px;
+  font-weight: 600;
+  margin-bottom: 24px;
+  padding-bottom: 16px;
+  border-bottom: 2px solid #e9ecef;
+}
+
+.form-section {
+  margin-bottom: 24px;
+}
+
+.section-title {
+  color: #6c757d;
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 16px;
+  padding-left: 8px;
+  border-left: 4px solid #007bff;
+}
+
+.form-row {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.form-group {
+  flex: 1;
+}
+
+.full-width {
+  width: 100%;
+}
+
+mat-form-field {
+  margin-bottom: 8px;
+}
+
+mat-form-field.mat-form-field-appearance-outline .mat-form-field-outline {
+  color: #dee2e6;
+}
+
+mat-form-field.mat-form-field-appearance-outline.mat-focused .mat-form-field-outline-thick {
+  color: #007bff;
+}
+
+mat-form-field.mat-form-field-appearance-outline .mat-form-field-label {
+  color: #6c757d;
+}
+
+mat-form-field.mat-form-field-appearance-outline.mat-focused .mat-form-field-label {
+  color: #007bff;
+}
+
+mat-dialog-actions {
+  padding: 16px 24px;
+  margin: 0;
+  border-top: 1px solid #e9ecef;
+  background-color: #f8f9fa;
+}
+
+.cancel-btn {
+  color: #6c757d;
+  border-color: #6c757d;
+  transition: all 0.3s ease;
+}
+
+.cancel-btn:hover {
+  background-color: #6c757d;
+  color: white;
+}
+
+.submit-btn {
+  background-color: #007bff;
+  color: white;
+  transition: all 0.3s ease;
+}
+
+.submit-btn:hover:not(:disabled) {
+  background-color: #0056b3;
+  transform: translateY(-1px);
+}
+
+.submit-btn:disabled {
+  background-color: #adb5bd;
+  color: #6c757d;
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+  mat-dialog-content {
+    padding: 16px;
+    min-width: auto;
+  }
+
+  .form-row {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .form-title {
+    font-size: 20px;
+    margin-bottom: 20px;
+  }
+
+  .section-title {
+    font-size: 16px;
+  }
+
+  mat-dialog-actions {
+    padding: 12px 16px;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  mat-dialog-actions button {
+    width: 100%;
+  }
+}
+
+/* Animation for form fields */
+mat-form-field {
+  transition: all 0.3s ease;
+}
+
+mat-form-field:hover {
+  transform: translateY(-1px);
+}
+
+/* Error state styling */
+mat-form-field.mat-form-field-invalid .mat-form-field-outline {
+  color: #dc3545;
+}
+
+mat-form-field.mat-form-field-invalid .mat-form-field-label {
+  color: #dc3545;
+}
+
+mat-error {
+  color: #dc3545;
+  font-size: 12px;
+  margin-top: 4px;
+}

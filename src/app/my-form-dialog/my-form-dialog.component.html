@@ -1,0 +1,85 @@
+<mat-dialog-content>
+  <h2 class="form-title">{{ dialogTitle }}</h2>
+  
+  <form #attendanceForm="ngForm" (ngSubmit)="onSubmit()">
+    <div class="form-section">
+      <h3 class="section-title">Check In</h3>
+      <div class="form-row">
+        <div class="form-group">
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Check In Date</mat-label>
+            <input matInput 
+                   [(ngModel)]="attendanceData.checkInDate" 
+                   name="checkInDate"
+                   [matDatepicker]="checkInPicker"
+                   placeholder="MM/DD/YYYY"
+                   required>
+            <mat-datepicker-toggle matIconSuffix [for]="checkInPicker"></mat-datepicker-toggle>
+            <mat-datepicker #checkInPicker></mat-datepicker>
+          </mat-form-field>
+        </div>
+
+        <div class="form-group">
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Check In Time</mat-label>
+            <input matInput 
+                   [(ngModel)]="attendanceData.checkInTime" 
+                   name="checkInTime"
+                   placeholder="HH:MM"
+                   required
+                   pattern="^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$">
+            <mat-error *ngIf="attendanceForm.controls['checkInTime']?.errors?.['pattern']">
+              Please enter time in HH:MM format
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-section">
+      <h3 class="section-title">Check Out</h3>
+      <div class="form-row">
+        <div class="form-group">
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Check Out Date</mat-label>
+            <input matInput 
+                   [(ngModel)]="attendanceData.checkOutDate" 
+                   name="checkOutDate"
+                   [matDatepicker]="checkOutPicker"
+                   placeholder="MM/DD/YYYY"
+                   required>
+            <mat-datepicker-toggle matIconSuffix [for]="checkOutPicker"></mat-datepicker-toggle>
+            <mat-datepicker #checkOutPicker></mat-datepicker>
+          </mat-form-field>
+        </div>
+
+        <div class="form-group">
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Check Out Time</mat-label>
+            <input matInput 
+                   [(ngModel)]="attendanceData.checkOutTime" 
+                   name="checkOutTime"
+                   placeholder="HH:MM"
+                   required
+                   pattern="^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$">
+            <mat-error *ngIf="attendanceForm.controls['checkOutTime']?.errors?.['pattern']">
+              Please enter time in HH:MM format
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="onCancel()" class="cancel-btn">Cancel</button>
+  <button mat-raised-button 
+          color="primary" 
+          (click)="onSubmit()" 
+          [disabled]="!attendanceForm.valid"
+          class="submit-btn">
+    {{ isUpdateMode ? 'Update' : 'Submit' }} Attendance
+  </button>
+</mat-dialog-actions>

@@ -1,0 +1,251 @@
+/* Container for the page */
+.home-container {
+  padding: 0; /* removed outer gaps */
+  max-width: 100%;
+  margin: 0;
+  width: 100%;
+  background: #ffffff;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+}
+
+/* Header Section Styles */
+.header-section {
+  background: var(--color-primary-solid); /* main header color */
+  color: #ffffff;
+  width: 100%;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.12);
+  position: relative;
+  overflow: hidden;
+  border-radius: 0; /* flush with edges */
+  margin: 0;
+  
+}
+
+.header-content {
+  padding: 20px 24px; /* spacing inside header */
+}
+
+.header-text {
+  margin-bottom: 24px;
+}
+
+.header-title {
+  font-size: 28px;
+  font-weight: 600;
+  margin: 0 0 8px 0;
+  color: white;
+}
+
+.header-subtitle {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 16px;
+  margin: 0;
+}
+
+/* Responsive adjustments */
+@media (max-width: 900px) {
+  .header-content { padding: 20px; }
+}
+
+@media (max-width: 600px) {
+  .header-title { font-size: 22px; }
+}
+
+
+/* Container and Card Styles */
+.personal-info-container {
+  padding: 20px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.info-card {
+  background: var(--color-surface);
+  border-radius: 12px;
+  box-shadow: 0 4px 12px -4px rgba(0, 0, 0, 0.15);
+  border: 1px solid var(--color-border);
+  overflow: hidden;
+}
+
+.info-card mat-card-header {
+  background: var(--color-primary-solid);
+  color: var(--color-text-inverse);
+  padding: 20px 20px 6px;
+}
+
+.info-card mat-card-title {
+  color: var(--color-text-inverse);
+  font-size: 22px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  margin-bottom: 6px;
+}
+
+/* Form Styles */
+.form-container {
+  padding: 20px;
+  background: linear-gradient(180deg, var(--color-surface) 0%, var(--color-surface-alt) 100%);
+}
+
+.form-row {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 12px;
+  align-items: flex-start;
+}
+
+.form-field {
+  flex: 1;
+  min-width: 200px;
+}
+
+.form-row.full-width {
+  flex-direction: column;
+}
+
+.full-width .form-field {
+  width: 100%;
+}
+
+/* Form Field Height Reduction */
+::ng-deep .mat-mdc-form-field {
+  width: 100%;
+  height: auto !important;
+}
+
+::ng-deep .mat-mdc-form-field .mat-mdc-form-field-infix {
+  min-height: 40px !important;
+  padding: 8px 0 !important;
+}
+
+::ng-deep .mat-mdc-form-field-subscript-wrapper {
+  margin-top: 2px;
+  font-size: 12px;
+}
+
+::ng-deep .mat-mdc-input-element {
+  height: 24px !important;
+  line-height: 24px !important;
+  padding: 8px 12px !important;
+}
+
+::ng-deep .mat-mdc-select .mat-mdc-select-trigger {
+  height: 40px !important;
+  min-height: 40px !important;
+}
+
+::ng-deep .mat-mdc-text-field-wrapper {
+  height: 40px !important;
+}
+
+::ng-deep textarea.mat-mdc-input-element {
+  height: auto !important;
+  min-height: 60px !important;
+  line-height: 1.4 !important;
+  padding: 8px 12px !important;
+  resize: vertical;
+}
+
+/* Button Styles */
+.button-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid var(--color-border);
+  flex-wrap: wrap;
+}
+
+.edit-buttons {
+  display: flex;
+  gap: 12px;
+}
+
+.action-button {
+  min-width: 140px;
+  height: 40px;
+  font-weight: 500;
+  letter-spacing: 0.2px;
+  font-size: 14px;
+}
+
+.save-button {
+  background: var(--color-success) !important;
+  color: #fff !important;
+  border-radius: 6px;
+  box-shadow: 0 3px 8px -2px rgba(0, 0, 0, 0.18);
+  transition: background 0.3s ease, transform 0.25s ease;
+}
+
+.save-button:hover {
+  background: #219648 !important;
+  transform: translateY(-1px);
+}
+
+.save-button:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+
+.cancel-button {
+  color: var(--color-text-muted);
+  border-color: var(--color-border);
+  border-radius: 6px;
+}
+
+.cancel-button:hover {
+  background: var(--color-neutral-bg);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .personal-info-container {
+    padding: 12px;
+  }
+
+  .form-row {
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 10px;
+  }
+
+  .form-field,
+  .address-field {
+    min-width: unset;
+  }
+
+  .edit-buttons {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .action-button {
+    width: 100%;
+    min-width: unset;
+  }
+
+  .button-container {
+    flex-direction: column;
+    gap: 8px;
+  }
+}
+
+@media (max-width: 480px) {
+  .info-card mat-card-title {
+    font-size: 18px;
+  }
+
+  .form-container {
+    padding: 16px;
+  }
+
+  .action-button {
+    height: 36px;
+    font-size: 13px;
+  }
+}

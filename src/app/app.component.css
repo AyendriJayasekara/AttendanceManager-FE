@@ -1,0 +1,103 @@
+/* App component - ensure no global margins or padding */
+:host {
+  display: block;
+  width: 100%;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+
+.sidebar {
+  width: 200px;
+  background-color: #e8e8e8;
+  padding: 20px;
+  border-right: 1px solid #ddd;
+}
+
+.user-avatar {
+  width: 80px;
+  height: 80px;
+  background-color: #ccc;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 10px;
+}
+
+.user-icon {
+  font-size: 35px;
+  color: #666;
+}
+
+.dropdown {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 1OPX;
+}
+
+.dropdown-icon {
+  font-size: 12px;
+  color: #666;
+}
+
+.menu-item {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  margin-top: 20px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.menu-item:hover {
+  background-color: #ddd;
+}
+
+.menu-icon {
+  margin-right: 10px;
+  font-size: 16px;
+}
+
+.main-content{
+    padding: 30px;
+    
+}
+
+.header{
+    margin-bottom: 20px;
+}
+
+.header h2{
+    font-size:25px;
+    color:brown;
+}
+
+
+
+.create-button{
+    
+  font-size:15px;
+  position: absolute;
+  top: 62px; 
+  right: 50px;
+  padding: 10px 20px;
+  background-color:rgb(38, 151, 85);
+  color:#e8e8e8;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+
+}
+
+.create-button:hover{
+    background-color: rgb(20, 83, 52);
+}

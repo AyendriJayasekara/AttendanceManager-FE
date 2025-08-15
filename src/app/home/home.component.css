@@ -1,0 +1,466 @@
+.home-container {
+  padding: 0; /* removed outer gaps */
+  max-width: 100%;
+  margin: 0;
+  width: 100%;
+  background: #ffffff;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+}
+
+/* Header Section Styles */
+/* Use updated primary solid color */
+.header-section {
+  background: var(--color-primary-solid); /* main header color */
+  color: #ffffff;
+  width: 100%;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.12);
+  position: relative;
+  overflow: hidden;
+  border-radius: 0; /* flush with edges */
+  margin: 0;
+}
+
+.header-content {
+  padding: 20px 24px; /* reduced vertical to tighten top */
+}
+
+.header-text {
+  margin-bottom: 24px;
+}
+
+.header-title {
+  font-size: 28px;
+  font-weight: 600;
+  margin: 0 0 8px 0;
+  color: white;
+}
+
+.header-subtitle {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 16px;
+  margin: 0;
+}
+
+.header-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+/* Search Section Styles */
+.search-section {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.search-field {
+  width: 180px;
+  margin-bottom: -20px;
+}
+
+.search-field ::ng-deep .mat-mdc-text-field-wrapper {
+  text-align: center;
+}
+
+.search-field ::ng-deep input.mat-mdc-input-element {
+  text-align: center;
+}
+
+.search-field ::ng-deep .mdc-notched-outline__notch {
+  border-right: none;
+}
+
+.search-field ::ng-deep .mat-mdc-form-field-flex:hover .mdc-notched-outline__notch {
+  border-right: none;
+}
+
+/* Hide the floating label */
+.search-field ::ng-deep .mdc-floating-label--float-above {
+  display: none !important;
+}
+
+/* Center the input and label */
+.search-field ::ng-deep .mat-mdc-form-field-infix {
+  display: flex;
+  justify-content: center;
+  text-align: center;
+}
+
+.search-field ::ng-deep input.mat-mdc-input-element {
+  text-align: center;
+}
+
+.search-field ::ng-deep .mdc-floating-label {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  inset-inline-start: 0 !important;
+  transform-origin: center !important;
+}
+
+.search-field ::ng-deep .mdc-notched-outline__notch {
+  display: flex;
+  justify-content: center;
+}
+
+.search-field ::ng-deep .mat-mdc-form-field-flex {
+  min-height: 42px;
+}
+
+.search-field ::ng-deep .mat-mdc-text-field-wrapper {
+  height: 42px;
+}
+
+.search-field ::ng-deep .mat-mdc-form-field-infix {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  min-height: unset;
+}
+
+.search-field ::ng-deep .mdc-text-field--outlined {
+  --mdc-outlined-text-field-container-height: 42px;
+}
+
+.search-field ::ng-deep .mat-mdc-form-field-flex {
+  background-color: rgba(255, 255, 255, 0.15);
+  border-radius: 8px;
+}
+
+.search-field ::ng-deep .mat-mdc-text-field-wrapper {
+  background-color: transparent !important;
+}
+
+.search-field ::ng-deep .mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-notched-outline__leading,
+.search-field ::ng-deep .mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-notched-outline__notch,
+.search-field ::ng-deep .mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-notched-outline__trailing {
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+.search-field ::ng-deep .mat-mdc-form-field-label {
+  color: rgba(255, 255, 255, 0.9) !important;
+  font-weight: 500;
+}
+
+.search-field ::ng-deep input {
+  color: white !important;
+  font-weight: 500;
+}
+
+.search-field ::ng-deep input::placeholder {
+  color: rgba(255, 255, 255, 0.8) !important;
+}
+
+/* Make calendar (datepicker) icons white */
+.search-field ::ng-deep .mat-datepicker-toggle {
+  color: white !important;
+}
+
+.search-field ::ng-deep .mat-datepicker-toggle-default-icon {
+  color: white !important;
+}
+
+.search-field ::ng-deep .mat-icon-button {
+  color: white !important;
+}
+
+.search-field ::ng-deep mat-datepicker-toggle button {
+  color: white !important;
+}
+
+.search-actions {
+  display: flex;
+  gap: 12px;
+}
+
+.search-actions button {
+  min-width: 90px;
+  background-color: rgba(255, 255, 255, 0.1);
+  color: white;
+}
+
+.search-actions button:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Table Section Styles */
+.table-section {
+  background: #ffffff;
+  flex: 1;
+  width: 100%;
+  position: relative;
+  z-index: 1;
+  border: none; /* remove borders creating gaps */
+  border-radius: 0;
+  box-shadow: none;
+  margin: 0;
+  padding: 0 0 32px 0; /* only bottom spacing */
+}
+
+/* Responsive padding adjustments instead of margins */
+@media (max-width: 1200px) {
+  .home-container { padding: 28px 32px 48px 32px; }
+}
+@media (max-width: 900px) {
+  .home-container { padding: 24px 20px 40px 20px; }
+  .header-content { padding: 20px; }
+  .table-header { padding: 20px 20px 12px 20px; }
+}
+@media (max-width: 600px) {
+  .home-container { padding: 16px 12px 32px 12px; }
+  .header-title { font-size: 22px; }
+}
+
+.table-header {
+  padding: 24px 24px 16px 24px;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.table-title {
+  font-size: 20px;
+  font-weight: 600;
+  color: #495057;
+  margin: 0 0 8px 0;
+}
+
+.table-subtitle {
+  color: #6c757d;
+  font-size: 14px;
+  margin: 0;
+}
+
+.table-content {
+  padding: 0;
+  background: #ffffff;
+}
+
+.table-container {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.attendance-table {
+  width: 100%;
+  background: var(--color-surface);
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+/* Column Styles */
+.mat-column-checkInDate,
+.mat-column-checkOutDate {
+  min-width: 120px;
+}
+
+.mat-column-checkInTime,
+.mat-column-checkOutTime {
+  min-width: 100px;
+}
+
+.mat-column-actions {
+  width: 100px;
+  text-align: center;
+}
+
+/* Table Header */
+th.mat-header-cell {
+  background: var(--color-surface-alt);
+  color: var(--color-text);
+  font-weight: 600;
+  padding: 14px 20px;
+  border-bottom: 2px solid var(--color-border);
+}
+
+/* Table Cells */
+td.mat-cell {
+  padding: 14px 20px;
+  color: var(--color-text);
+  border-bottom: 1px solid var(--color-border);
+}
+
+/* Action Buttons */
+.action-buttons {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+}
+
+.action-buttons button {
+  width: 32px;
+  height: 32px;
+  line-height: 32px;
+}
+
+/* Row Hover Effect */
+tr.mat-row:hover {
+  background: var(--color-neutral-bg);
+}
+
+.clear-button:hover {
+  background-color: #6c757d;
+  color: white;
+}
+
+/* Table Card Styles */
+.table-content {
+  background: white;
+}
+
+.table-container {
+  overflow-x: auto;
+}
+
+.attendance-table {
+  width: 100%;
+  background: #ffffff;
+}
+
+.attendance-table th {
+  background-color: #f8f9fa;
+  color: #495057;
+  font-weight: 600;
+  padding: 16px 24px;
+  border-bottom: 2px solid #dee2e6;
+}
+
+.attendance-table td {
+  padding: 16px 24px;
+  border-bottom: 1px solid #e9ecef;
+  vertical-align: middle;
+}
+
+.attendance-table tr:hover {
+  background-color: #f8f9fa;
+  transition: background-color 0.2s ease;
+}
+
+/* Action Buttons */
+.action-buttons {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+}
+
+.add-button {
+  background: var(--color-accent);
+  color: #ffffff;
+  border: 1px solid var(--color-accent);
+  transition: background .3s ease, transform .25s ease, box-shadow .25s ease;
+  padding: 0 26px;
+  height: 44px;
+  font-weight: 600;
+  letter-spacing: .5px;
+  box-shadow: 0 4px 12px -2px rgba(0,0,0,0.18);
+  border-radius: 10px;
+}
+.add-button:hover {
+  background: var(--color-accent-hover);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 18px -6px rgba(0,0,0,0.25);
+}
+.add-button:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+
+/* Utility secondary accent background */
+.accent-secondary-bg { 
+  background-color: var(--color-accent-secondary) !important; 
+  color:#fff !important; 
+}
+
+.edit-button {
+  color: #007bff;
+  transition: all 0.3s ease;
+}
+
+.edit-button:hover {
+  background-color: rgba(0, 123, 255, 0.1);
+  transform: scale(1.1);
+}
+
+.delete-button {
+  color: #dc3545;
+  transition: all 0.3s ease;
+}
+
+.delete-button:hover {
+  background-color: rgba(220, 53, 69, 0.1);
+  transform: scale(1.1);
+}
+
+/* No Records Message */
+.no-records {
+  text-align: center;
+  padding: 40px 20px;
+  color: #6c757d;
+}
+
+.no-records-icon {
+  font-size: 48px;
+  width: 48px;
+  height: 48px;
+  margin-bottom: 16px;
+  color: #adb5bd;
+}
+
+.no-records p {
+  margin: 8px 0;
+  font-size: 16px;
+}
+
+.no-records p:first-of-type {
+  font-weight: 600;
+  color: #495057;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .home-container {
+    padding: 10px;
+  }
+
+  .search-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .search-field {
+    min-width: auto;
+  }
+
+  .search-actions {
+    justify-content: center;
+  }
+
+  .attendance-table {
+    font-size: 14px;
+  }
+
+  .attendance-table th,
+  .attendance-table td {
+    padding: 8px 6px;
+  }
+
+  .action-buttons {
+    flex-direction: column;
+    gap: 4px;
+  }
+}
+
+@media (max-width: 480px) {
+  .header-card mat-card-title {
+    font-size: 20px;
+  }
+
+  .header-card mat-card-subtitle {
+    font-size: 14px;
+  }
+
+  .search-card mat-card-title,
+  .table-card mat-card-title {
+    font-size: 16px;
+  }
+}
