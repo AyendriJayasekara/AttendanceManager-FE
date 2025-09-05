@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
@@ -10,6 +10,10 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+import { PersonalInfoService } from '../services/personal-info.service';
 
 @Component({
   selector: 'app-personal-info',
@@ -25,27 +29,39 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
     MatDatepickerModule,
     MatNativeDateModule,
     ReactiveFormsModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatProgressBarModule
   ],
   templateUrl: './personal-info.component.html',
   styleUrls: ['./personal-info.component.css']
 })
-export class PersonalInfoComponent {
+export class PersonalInfoComponent implements OnInit, OnDestroy {
   personalInfoForm: FormGroup;
   isEditMode = false;
+  isLoading = false;
   originalFormData: any;
+  private destroy$ = new Subject<void>();
 
   constructor(
     private fb: FormBuilder,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private personalInfoService: PersonalInfoService
   ) {
     this.personalInfoForm = this.createForm();
-    this.loadSampleData();
+  }
+
+  ngOnInit(): void {
+    // Load self record on init
+    this.loadPersonalInfo();
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   private createForm(): FormGroup {
     return this.fb.group({
-      employeeId: ['', Validators.required],
       fullName: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       phone: ['', Validators.required],
@@ -79,58 +95,168 @@ export class PersonalInfoComponent {
     this.originalFormData = { ...sampleData };
   }
 
+  loadPersonalInfo(): void {
+    this.isLoading = true;
+    this.personalInfoService.getPersonalInfo()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (info) => {
+          this.isLoading = false;
+          this.personalInfoForm.patchValue(info);
+          this.originalFormData = { ...info };
+          this.disableFormControls();
+          this.snackBar.open('Personal information loaded successfully', 'Close', {
+            duration: 3000,
+            panelClass: ['success-snackbar']
+          });
+        },
+        error: (error) => {
+          this.isLoading = false;
+          if (error.message.includes('not found')) {
+            // No record yet - enable edit mode to create first-time record
+            this.isEditMode = true;
+            this.enableFormControls();
+            this.snackBar.open('No record found. Please enter your details and save.', 'Close', {
+              duration: 5000,
+              panelClass: ['info-snackbar']
+            });
+          } else {
+            this.snackBar.open(error.message, 'Close', {
+              duration: 3000,
+              panelClass: ['error-snackbar']
+            });
+          }
+        }
+      });
+  }
+
   enableEditMode(): void {
     this.isEditMode = true;
     this.originalFormData = { ...this.personalInfoForm.value };
+    this.enableFormControls();
+  }
+
+  private enableFormControls(): void {
+    this.personalInfoForm.get('fullName')?.enable();
+    this.personalInfoForm.get('email')?.enable();
+    this.personalInfoForm.get('phone')?.enable();
+    this.personalInfoForm.get('department')?.enable();
+    this.personalInfoForm.get('jobTitle')?.enable();
+    this.personalInfoForm.get('dateOfBirth')?.enable();
+    this.personalInfoForm.get('dateOfJoining')?.enable();
+    this.personalInfoForm.get('manager')?.enable();
+    this.personalInfoForm.get('employeeType')?.enable();
+    this.personalInfoForm.get('address')?.enable();
+  }
+
+  private disableFormControls(): void {
+    this.personalInfoForm.get('fullName')?.disable();
+    this.personalInfoForm.get('email')?.disable();
+    this.personalInfoForm.get('phone')?.disable();
+    this.personalInfoForm.get('department')?.disable();
+    this.personalInfoForm.get('jobTitle')?.disable();
+    this.personalInfoForm.get('dateOfBirth')?.disable();
+    this.personalInfoForm.get('dateOfJoining')?.disable();
+    this.personalInfoForm.get('manager')?.disable();
+    this.personalInfoForm.get('employeeType')?.disable();
+    this.personalInfoForm.get('address')?.disable();
   }
 
   savePersonalInfo(): void {
-    if (this.personalInfoForm.valid) {
-      // In a real application, you would send this data to a backend service
-      console.log('Saving personal info:', this.personalInfoForm.value);
-      
-      // Simulate API call
-      setTimeout(() => {
-        this.isEditMode = false;
-        this.snackBar.open('Personal information saved successfully!', 'Close', {
-          duration: 3000,
-          panelClass: ['success-snackbar']
-        });
-      }, 500);
-    } else {
-      this.snackBar.open('Please fill in all required fields correctly.', 'Close', {
-        duration: 3000,
+    // Check for specific field validations
+    const invalidFields = [];
+    
+    if (!this.personalInfoForm.get('fullName')?.value) {
+      invalidFields.push('Full Name');
+    }
+    if (!this.personalInfoForm.get('email')?.value) {
+      invalidFields.push('Email');
+    } else if (this.personalInfoForm.get('email')?.errors?.['email']) {
+      invalidFields.push('Valid Email');
+    }
+    if (!this.personalInfoForm.get('phone')?.value) {
+      invalidFields.push('Phone');
+    }
+    if (!this.personalInfoForm.get('department')?.value) {
+      invalidFields.push('Department');
+    }
+    if (!this.personalInfoForm.get('jobTitle')?.value) {
+      invalidFields.push('Job Title');
+    }
+    if (!this.personalInfoForm.get('dateOfJoining')?.value) {
+      invalidFields.push('Date of Joining');
+    }
+
+    if (invalidFields.length > 0) {
+      this.snackBar.open(`Please fill in: ${invalidFields.join(', ')}`, 'Close', {
+        duration: 5000,
         panelClass: ['error-snackbar']
       });
+      return;
     }
+
+    // If all validations pass, proceed with save
+    this.isLoading = true;
+    const formData = this.personalInfoForm.value;
+
+    // Try to get existing record first to determine if we should create or update
+    this.personalInfoService.getPersonalInfo()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: () => {
+          // Record exists, do update
+          this.personalInfoService.updatePersonalInfo(formData)
+            .pipe(takeUntil(this.destroy$))
+            .subscribe({
+              next: this.handleSaveSuccess.bind(this),
+              error: this.handleSaveError.bind(this)
+            });
+        },
+        error: (error) => {
+          if (error.message.includes('not found')) {
+            // Record doesn't exist, do create
+            this.personalInfoService.savePersonalInfo(formData)
+              .pipe(takeUntil(this.destroy$))
+              .subscribe({
+                next: this.handleSaveSuccess.bind(this),
+                error: this.handleSaveError.bind(this)
+              });
+          } else {
+            this.handleSaveError(error);
+          }
+        }
+      });
+  }
+
+  private handleSaveSuccess(response: any): void {
+    this.isLoading = false;
+    this.isEditMode = false;
+    this.originalFormData = { ...response };
+    this.personalInfoForm.patchValue(response);
+    this.disableFormControls();
+    
+    this.snackBar.open('Personal information saved successfully!', 'Close', {
+      duration: 3000,
+      panelClass: ['success-snackbar']
+    });
+  }
+
+  private handleSaveError(error: any): void {
+    this.isLoading = false;
+    this.snackBar.open(error.message || 'Error saving information', 'Close', {
+      duration: 5000,
+      panelClass: ['error-snackbar']
+    });
   }
 
   quickSave(): void {
-    // Quick save function that works regardless of edit mode
-    if (this.personalInfoForm.valid) {
-      // In a real application, you would send this data to a backend service
-      console.log('Quick saving personal info:', this.personalInfoForm.value);
-      
-      // API call
-      setTimeout(() => {
-        this.snackBar.open('Information saved successfully!', 'Close', {
-          duration: 2500,
-          panelClass: ['success-snackbar']
-        });
-        // Update the original form data 
-        this.originalFormData = { ...this.personalInfoForm.value };
-      }, 300);
-    } else {
-      this.snackBar.open('Please fill in all required fields correctly.', 'Close', {
-        duration: 3000,
-        panelClass: ['error-snackbar']
-      });
-    }
+    this.savePersonalInfo();
   }
 
   cancelEdit(): void {
     this.personalInfoForm.patchValue(this.originalFormData);
     this.isEditMode = false;
+    this.disableFormControls();
     this.snackBar.open('Changes cancelled.', 'Close', {
       duration: 2000
     });

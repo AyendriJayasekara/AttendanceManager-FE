@@ -4,7 +4,7 @@
   width: 100vw;
   margin: 0;
   padding: 0;
-  background-color: var(--color-bg);
+  background-color: transparent;
   position: fixed;
   top: 0;
   left: 0;
@@ -224,7 +224,7 @@
   flex: 1;
   margin: 0;
   padding: 0;
-  background: #ffffff;
+  background: transparent;
   overflow-y: auto;
   display: flex;
   flex-direction: column;

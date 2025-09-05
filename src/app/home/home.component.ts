@@ -16,6 +16,7 @@ import { Subject, takeUntil } from 'rxjs';
 
 import { AttendanceService, AttendanceRecord, SearchCriteria } from '../services/attendance.service';
 import { MyFormDialogComponent, DialogData } from '../my-form-dialog/my-form-dialog.component';
+import { DeleteConfirmationDialogComponent } from '../delete-confirmation-dialog/delete-confirmation-dialog.component';
 
 @Component({
   selector: 'app-home',
@@ -39,8 +40,14 @@ import { MyFormDialogComponent, DialogData } from '../my-form-dialog/my-form-dia
   styleUrl: './home.component.css'
 })
 export class HomeComponent implements OnInit, OnDestroy {
-  attendanceRecords: AttendanceRecord[] = [];
-  displayedColumns: string[] = ['checkInDate', 'checkInTime', 'checkOutDate', 'checkOutTime', 'actions'];
+  attendanceRecords: (AttendanceRecord & { 
+    isEditing?: boolean;
+    editCheckInDate?: Date;
+    editCheckInTime?: string;
+    editCheckOutTime?: string;
+  })[] = [];
+  displayedColumns: string[] = ['checkInDate', 'checkInTime', 'checkOutTime', 'actions'];
+  maxDate = new Date();
   
   searchCriteria: SearchCriteria = {
     startDate: null,
@@ -94,7 +101,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.showSnackBar('Search cleared');
   }
 
-  openAddDialog(): void { // Opens a dialog //
+  openAddDialog(): void {
     const dialogRef = this.dialog.open(MyFormDialogComponent, {
       width: '600px',
       data: { mode: 'create' } as DialogData
@@ -104,14 +111,21 @@ export class HomeComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe(result => {
         if (result) {
-          this.attendanceService.addAttendanceRecord(result);
-          this.showSnackBar('Attendance record added successfully!');
-          this.loadAttendanceRecords();
+          this.attendanceService.addAttendanceRecord(result)
+            .pipe(takeUntil(this.destroy$))
+            .subscribe({
+              next: () => {
+                this.showSnackBar('Attendance record added successfully!');
+              },
+              error: (error) => {
+                this.showSnackBar('Error adding record: ' + error.message);
+              }
+            });
         }
       });
   }
 
-  openUpdateDialog(record: AttendanceRecord): void {// Opens a dialog for updating //
+  openUpdateDialog(record: AttendanceRecord): void {
     const dialogRef = this.dialog.open(MyFormDialogComponent, {
       width: '600px',
       data: { mode: 'update', record } as DialogData
@@ -121,23 +135,126 @@ export class HomeComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe(result => {
         if (result && result.id) {
-          this.attendanceService.updateAttendanceRecord(result.id, result);
-          this.showSnackBar('Attendance record updated successfully!');
-          this.loadAttendanceRecords();
+          this.attendanceService.updateAttendanceRecord(result.id, result)
+            .pipe(takeUntil(this.destroy$))
+            .subscribe({
+              next: () => {
+                this.showSnackBar('Attendance record updated successfully!');
+              },
+              error: (error) => {
+                this.showSnackBar('Error updating record: ' + error.message);
+              }
+            });
         }
       });
   }
 
   deleteRecord(id: string): void {
-    if (confirm('Are you sure you want to delete this attendance record?')) {
-      this.attendanceService.deleteAttendanceRecord(id);
-      this.showSnackBar('Attendance record deleted successfully!');
-      this.loadAttendanceRecords();
-    }
+    const dialogRef = this.dialog.open(DeleteConfirmationDialogComponent, {
+      width: '300px',
+      disableClose: false,
+      autoFocus: false,
+      panelClass: 'delete-dialog'
+    });
+
+    dialogRef.afterClosed()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(result => {
+        if (result) {
+          this.attendanceService.deleteAttendanceRecord(id)
+            .pipe(takeUntil(this.destroy$))
+            .subscribe({
+              next: (response) => {
+                // We'll always get a success response now
+                this.showSnackBar('Attendance record deleted successfully!');
+              },
+              error: (error) => {
+                // This will only happen for real errors (network issues, server errors)
+                this.showSnackBar('Unable to connect to the server. Please try again.');
+              }
+            });
+        }
+      });
   }
 
   formatDate(date: Date): string {
-    return new Date(date).toLocaleDateString();
+    // Ensure we're working with a Date object
+    const dateObj = new Date(date);
+    // Set time to midnight to avoid timezone issues
+    dateObj.setHours(0, 0, 0, 0);
+    return dateObj.toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit'
+    });
+  }
+
+  startEditing(record: any): void {
+    record.isEditing = true;
+    // Create a new Date object and set to midnight
+    const date = new Date(record.checkInDate);
+    date.setHours(0, 0, 0, 0);
+    
+    record.editCheckInDate = date;
+    record.editCheckInTime = record.checkInTime;
+    record.editCheckOutTime = record.checkOutTime || '';
+  }
+
+  cancelEditing(record: any): void {
+    record.isEditing = false;
+    record.editCheckInDate = undefined;
+    record.editCheckInTime = undefined;
+    record.editCheckOutTime = undefined;
+  }
+
+  saveRecord(record: any): void {
+    const timePattern = /^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/;
+    
+    if (!record.editCheckInDate) {
+      this.showSnackBar('Please enter a valid date');
+      return;
+    }
+
+    if (!timePattern.test(record.editCheckInTime)) {
+      this.showSnackBar('Please enter a valid check-in time in HH:MM format');
+      return;
+    }
+
+    if (record.editCheckOutTime && !timePattern.test(record.editCheckOutTime)) {
+      this.showSnackBar('Please enter a valid check-out time in HH:MM format');
+      return;
+    }
+
+    // Ensure we have a proper Date object
+    const checkInDate = record.editCheckInDate instanceof Date 
+      ? record.editCheckInDate 
+      : new Date(record.editCheckInDate);
+
+    // Create the updated record with the proper date
+    const updatedRecord = {
+      ...record,
+      checkInDate: checkInDate,
+      checkInTime: record.editCheckInTime,
+      checkOutTime: record.editCheckOutTime || null
+    };
+
+    this.attendanceService.updateAttendanceRecord(record.id, updatedRecord)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: () => {
+          record.checkInDate = record.editCheckInDate;
+          record.checkInTime = record.editCheckInTime;
+          record.checkOutTime = record.editCheckOutTime || null;
+          record.isEditing = false;
+          record.editCheckInDate = undefined;
+          record.editCheckInTime = undefined;
+          record.editCheckOutTime = undefined;
+          this.showSnackBar('Record updated successfully!');
+        },
+        error: (error) => {
+          this.showSnackBar('Error updating record: ' + error.message);
+        }
+      });
   }
 
   private showSnackBar(message: string): void {

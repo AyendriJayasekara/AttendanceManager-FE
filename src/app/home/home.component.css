@@ -63,6 +63,7 @@
 .search-field {
   width: 180px;
   margin-bottom: -20px;
+  margin-bottom: 6px;
 }
 
 .search-field ::ng-deep .mat-mdc-text-field-wrapper {
@@ -183,6 +184,7 @@
   min-width: 90px;
   background-color: rgba(255, 255, 255, 0.1);
   color: black;
+  
 }
 
 .search-actions button:hover {
@@ -294,7 +296,103 @@ td.mat-cell {
 .action-buttons button {
   width: 32px;
   height: 32px;
-  line-height: 32px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.action-buttons mat-icon {
+  font-size: 18px;
+  width: 18px;
+  height: 18px;
+  line-height: 18px;
+}
+
+.time-input {
+  width: 100px;
+  margin: 0;
+}
+
+.date-input {
+  width: 160px;
+  margin: 0;
+}
+
+:host ::ng-deep .mat-form-field-appearance-outline .mat-form-field-flex {
+  gap: 0;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 4px;
+  justify-content: center;
+  align-items: center;
+  min-height: 32px;
+}
+
+.mat-column-checkOutTime {
+  min-width: 120px;
+}
+
+.mat-column-checkInTime {
+  min-width: 120px;
+}
+
+.mat-column-checkInDate {
+  min-width: 150px;
+}
+
+:host ::ng-deep .mat-form-field-wrapper {
+  padding-bottom: 0;
+  margin: 0;
+}
+
+:host ::ng-deep .mat-form-field-appearance-outline .mat-form-field-infix {
+  padding: 0.3em 0;
+  min-height: unset;
+}
+
+:host ::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline {
+  background: white;
+}
+
+:host ::ng-deep .mat-form-field-appearance-outline .mat-form-field-flex {
+  margin-top: 0;
+  padding: 0 0.5em;
+  height: 36px;
+}
+
+td.mat-cell {
+  vertical-align: middle;
+}
+
+.mat-mdc-icon-button {
+  --mdc-icon-button-state-layer-size: 32px;
+  padding: 6px !important;
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+}
+
+:host ::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline-thick {
+  color: rgba(0, 0, 0, 0.12);
+}
+
+:host ::ng-deep .mat-datepicker-toggle {
+  margin-right: 4px;
+}
+
+:host ::ng-deep .mat-form-field-appearance-outline .mat-form-field-suffix {
+  align-self: center;
+}
+
+:host ::ng-deep .mat-form-field-appearance-outline .mat-mdc-form-field-subscript-wrapper {
+  display: none;
+}
+
+:host ::ng-deep td.mat-cell {
+  padding: 8px 20px;
 }
 
 /* Row Hover Effect */

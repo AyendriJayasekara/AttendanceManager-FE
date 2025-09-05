@@ -58,28 +58,56 @@
     <div class="table-content">
       <div class="table-container">
         <table mat-table [dataSource]="attendanceRecords" class="attendance-table">
-          <!-- Check In Date Column -->
+          <!-- Date Column -->
           <ng-container matColumnDef="checkInDate">
-            <th mat-header-cell *matHeaderCellDef>Check In Date</th>
-            <td mat-cell *matCellDef="let record">{{ formatDate(record.checkInDate) }}</td>
+            <th mat-header-cell *matHeaderCellDef>Date</th>
+            <td mat-cell *matCellDef="let record">
+              <div *ngIf="!record.isEditing">
+                {{ formatDate(record.checkInDate) }}
+              </div>
+              <mat-form-field *ngIf="record.isEditing" appearance="outline" class="date-input">
+                <input matInput 
+                       [ngModel]="record.editCheckInDate" 
+                       (ngModelChange)="record.editCheckInDate = $event"
+                       [matDatepicker]="picker"
+                       [max]="maxDate"
+                       placeholder="MM/DD/YYYY">
+                <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+              </mat-form-field>
+            </td>
           </ng-container>
 
           <!-- Check In Time Column -->
           <ng-container matColumnDef="checkInTime">
             <th mat-header-cell *matHeaderCellDef>Check In Time</th>
-            <td mat-cell *matCellDef="let record">{{ record.checkInTime }}</td>
-          </ng-container>
-
-          <!-- Check Out Date Column -->
-          <ng-container matColumnDef="checkOutDate">
-            <th mat-header-cell *matHeaderCellDef>Check Out Date</th>
-            <td mat-cell *matCellDef="let record">{{ formatDate(record.checkOutDate) }}</td>
+            <td mat-cell *matCellDef="let record">
+              <div *ngIf="!record.isEditing">
+                {{ record.checkInTime }}
+              </div>
+              <mat-form-field *ngIf="record.isEditing" appearance="outline" class="time-input">
+                <input matInput 
+                       [(ngModel)]="record.editCheckInTime"
+                       placeholder="HH:MM"
+                       pattern="^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$">
+              </mat-form-field>
+            </td>
           </ng-container>
 
           <!-- Check Out Time Column -->
           <ng-container matColumnDef="checkOutTime">
             <th mat-header-cell *matHeaderCellDef>Check Out Time</th>
-            <td mat-cell *matCellDef="let record">{{ record.checkOutTime }}</td>
+            <td mat-cell *matCellDef="let record">
+              <div *ngIf="!record.isEditing">
+                {{ record.checkOutTime || '-' }}
+              </div>
+              <mat-form-field *ngIf="record.isEditing" appearance="outline" class="time-input">
+                <input matInput 
+                       [(ngModel)]="record.editCheckOutTime"
+                       placeholder="HH:MM"
+                       pattern="^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$">
+              </mat-form-field>
+            </td>
           </ng-container>
 
           <!-- Actions Column -->
@@ -87,20 +115,38 @@
             <th mat-header-cell *matHeaderCellDef>Actions</th>
             <td mat-cell *matCellDef="let record">
               <div class="action-buttons">
-                <button mat-icon-button 
-                        color="primary" 
-                        (click)="openUpdateDialog(record)"
-                        class="edit-button"
-                        title="Edit Record">
-                  <mat-icon>edit</mat-icon>
-                </button>
-                <button mat-icon-button 
-                        color="warn" 
-                        (click)="deleteRecord(record.id)"
-                        class="delete-button"
-                        title="Delete Record">
-                  <mat-icon>delete</mat-icon>
-                </button>
+                <ng-container *ngIf="!record.isEditing">
+                  <button mat-icon-button 
+                          color="primary" 
+                          (click)="startEditing(record)"
+                          class="edit-button"
+                          title="Edit Record">
+                    <mat-icon>edit</mat-icon>
+                  </button>
+                  <button mat-icon-button 
+                          color="warn" 
+                          (click)="deleteRecord(record.id)"
+                          class="delete-button"
+                          title="Delete Record">
+                    <mat-icon>delete</mat-icon>
+                  </button>
+                </ng-container>
+                <ng-container *ngIf="record.isEditing">
+                  <button mat-icon-button 
+                          color="primary" 
+                          (click)="saveRecord(record)"
+                          class="save-button"
+                          title="Save Changes">
+                    <mat-icon>check</mat-icon>
+                  </button>
+                  <button mat-icon-button 
+                          color="warn" 
+                          (click)="cancelEditing(record)"
+                          class="cancel-button"
+                          title="Cancel Changes">
+                    <mat-icon>close</mat-icon>
+                  </button>
+                </ng-container>
               </div>
             </td>
           </ng-container>

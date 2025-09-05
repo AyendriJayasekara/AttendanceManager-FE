@@ -12,8 +12,7 @@ import { AttendanceRecord } from '../services/attendance.service';
 export interface AttendanceFormData {
   checkInDate: Date | null;
   checkInTime: string;
-  checkOutDate: Date | null;
-  checkOutTime: string;
+  checkOutTime: string | null;
 }
 
 export interface DialogData {
@@ -42,12 +41,12 @@ export class MyFormDialogComponent implements OnInit {
   attendanceData: AttendanceFormData = {
     checkInDate: null,
     checkInTime: '',
-    checkOutDate: null,
-    checkOutTime: ''
+    checkOutTime: null
   };
 
   isUpdateMode = false;
   dialogTitle = 'Add Attendance Record';
+  maxDate = new Date();  // This will be used to prevent future date selection
 
   constructor(
     public dialogRef: MatDialogRef<MyFormDialogComponent>,//   reference to the dialog window that opened this component
@@ -63,7 +62,6 @@ export class MyFormDialogComponent implements OnInit {
       this.attendanceData = {
         checkInDate: new Date(this.data.record.checkInDate),
         checkInTime: this.data.record.checkInTime,
-        checkOutDate: new Date(this.data.record.checkOutDate),
         checkOutTime: this.data.record.checkOutTime
       };
     }
@@ -80,12 +78,18 @@ export class MyFormDialogComponent implements OnInit {
   }
 
   private isFormValid(): boolean {
-    return !!(
-      this.attendanceData.checkInDate &&
-      this.attendanceData.checkInTime &&
-      this.attendanceData.checkOutDate &&
-      this.attendanceData.checkOutTime
-    );
+    if (this.isUpdateMode) {
+      return !!(
+        this.attendanceData.checkInDate &&
+        this.attendanceData.checkInTime &&
+        this.attendanceData.checkOutTime
+      );
+    } else {
+      return !!(
+        this.attendanceData.checkInDate &&
+        this.attendanceData.checkInTime
+      );
+    }
   }
 
   onCancel(): void {
