@@ -62,6 +62,7 @@ export class PersonalInfoComponent implements OnInit, OnDestroy {
 
   private createForm(): FormGroup {
     return this.fb.group({
+      id: [''],  // Hidden field for the ID
       fullName: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       phone: ['', Validators.required],
@@ -199,33 +200,25 @@ export class PersonalInfoComponent implements OnInit, OnDestroy {
     this.isLoading = true;
     const formData = this.personalInfoForm.value;
 
-    // Try to get existing record first to determine if we should create or update
-    this.personalInfoService.getPersonalInfo()
-      .pipe(takeUntil(this.destroy$))
-      .subscribe({
-        next: () => {
-          // Record exists, do update
-          this.personalInfoService.updatePersonalInfo(formData)
-            .pipe(takeUntil(this.destroy$))
-            .subscribe({
-              next: this.handleSaveSuccess.bind(this),
-              error: this.handleSaveError.bind(this)
-            });
-        },
-        error: (error) => {
-          if (error.message.includes('not found')) {
-            // Record doesn't exist, do create
-            this.personalInfoService.savePersonalInfo(formData)
-              .pipe(takeUntil(this.destroy$))
-              .subscribe({
-                next: this.handleSaveSuccess.bind(this),
-                error: this.handleSaveError.bind(this)
-              });
-          } else {
-            this.handleSaveError(error);
-          }
-        }
-      });
+    // Check if we have an ID to determine if this is an update or create
+    if (this.originalFormData && this.originalFormData.id) {
+      // Ensure the ID is included in the form data
+      formData.id = this.originalFormData.id;
+      this.personalInfoService.updatePersonalInfo(formData)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe({
+          next: this.handleSaveSuccess.bind(this),
+          error: this.handleSaveError.bind(this)
+        });
+    } else {
+      // No ID means this is a new record
+      this.personalInfoService.savePersonalInfo(formData)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe({
+          next: this.handleSaveSuccess.bind(this),
+          error: this.handleSaveError.bind(this)
+        });
+    }
   }
 
   private handleSaveSuccess(response: any): void {

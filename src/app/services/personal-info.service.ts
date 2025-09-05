@@ -4,7 +4,7 @@ import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
 export interface PersonalInfoDTO {
-  employeeId: string;
+  id?: string;  // Optional for creation, required for updates
   fullName: string;
   email: string;
   phone: string;
@@ -63,9 +63,12 @@ export class PersonalInfoService {
     );
   }
 
-  // PUT /api/personal-info
+  // PUT /api/personal-info/{id}
   updatePersonalInfo(personalInfo: PersonalInfoDTO): Observable<PersonalInfoDTO> {
-    const url = `${this.apiUrl}`;
+    if (!personalInfo.id) {
+      return throwError(() => new Error('ID is required for updating personal information'));
+    }
+    const url = `${this.apiUrl}/${personalInfo.id}`;
     console.log('Making PUT request to:', url, 'with data:', personalInfo);
     return this.http.put<PersonalInfoDTO>(url, personalInfo).pipe(
       catchError((error) => {
